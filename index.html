@@ -1,67 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Chris Castiglione, and the One Month team">
-		<title>Monthly Resolutions by Chris Castiglione</title>
-		<link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="css/normalize.css">
-		<link rel="stylesheet" href="css/style.css">
-	</head>
-	<body>
-	<div id="container">
-		<div id="header">
-			<H1>Monthly resolution</H1>
-			<p>DreamingAloud.30 days of time</p>
-		</div>
-		<div id="main">
-			<h2>Read Everyday</h2>
-			<img src="images/book.jpg">
-			<p>This month i will read atleast 50 page </p>
-			
-			<p class="grey">_____________________________________________________________</p>
-		    <p class="grey">My september Resolution</p>
-		    <h2>Meditate</h2>
-			<img src="images/meditate-girl.jpg">
-			<p>I will take a meditation class and practice meditating atleast 20 minutes everyday </p>
-			
-			<p class="grey">_____________________________________________________________</p>
-		    <p class="grey">My october Resolution</p>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
 
-			<h2>Read Everyday</h2>
-		
-			<img src="images/surfing.jpg">
-			<p> This april I will travel to the Caribbean and take surfing lessons.</p>
-			
-			<p class="grey">_____________________________________________________________</p>
-		    <p class="grey">My november Resolution</p>
-		</div>
-		<div id="sidebar">
-			<img id="circular" src="images/1626168515842.jfif">
-			<h3>This blog is made by Damodar pokhrel</h3>
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
 
-			<h4>Follow me</h4>
-			<ul>
-				<li><a href="www.facebook.com/">Facebook</a></li>
-                <li><a href="www.facebook.com/">Github</a></li>
-				<li><a href="www.facebook.com/">linkdin</a></li>
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
 
-			</ul>
-			<div id="blockquote"><h3>Quotes of the day</h3>
-			<p class="grey">“If you want to find the secrets of the universe, 
-				think in terms of energy, frequency and vibration.” Nikola Tesla. </p></div>
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="/">
 
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
 
-		</div>
-		<div class="clear"></div>
-		<div id="footer">
-			<p>Made by <a href="http://www.onemonth.com" target="_blank">one month</a></p>
-		</div>
-	</div>
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="web">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-	
-	</body>
+  <title>web</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <!-- This script installs service_worker.js to provide PWA functionality to
+       application. For more information, see:
+       https://developers.google.com/web/fundamentals/primers/service-workers -->
+  <script>
+    var serviceWorkerVersion = '3851868817';
+    var scriptLoaded = false;
+    function loadMainDartJs() {
+      if (scriptLoaded) {
+        return;
+      }
+      scriptLoaded = true;
+      var scriptTag = document.createElement('script');
+      scriptTag.src = 'main.dart.js';
+      scriptTag.type = 'application/javascript';
+      document.body.append(scriptTag);
+    }
+
+    if ('serviceWorker' in navigator) {
+      // Service workers are supported. Use them.
+      window.addEventListener('load', function () {
+        // Wait for registration to finish before dropping the <script> tag.
+        // Otherwise, the browser will load the script multiple times,
+        // potentially different versions.
+        var serviceWorkerUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
+        navigator.serviceWorker.register(serviceWorkerUrl)
+          .then((reg) => {
+            function waitForActivation(serviceWorker) {
+              serviceWorker.addEventListener('statechange', () => {
+                if (serviceWorker.state == 'activated') {
+                  console.log('Installed new service worker.');
+                  loadMainDartJs();
+                }
+              });
+            }
+            if (!reg.active && (reg.installing || reg.waiting)) {
+              // No active web worker and we have installed or are installing
+              // one for the first time. Simply wait for it to activate.
+              waitForActivation(reg.installing || reg.waiting);
+            } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
+              // When the app updates the serviceWorkerVersion changes, so we
+              // need to ask the service worker to update.
+              console.log('New service worker available.');
+              reg.update();
+              waitForActivation(reg.installing);
+            } else {
+              // Existing service worker is still good.
+              console.log('Loading app from service worker.');
+              loadMainDartJs();
+            }
+          });
+
+        // If service worker doesn't succeed in a reasonable amount of time,
+        // fallback to plaint <script> tag.
+        setTimeout(() => {
+          if (!scriptLoaded) {
+            console.warn(
+              'Failed to load app from service worker. Falling back to plain <script> tag.',
+            );
+            loadMainDartJs();
+          }
+        }, 4000);
+      });
+    } else {
+      // Service workers not supported. Just drop the <script> tag.
+      loadMainDartJs();
+    }
+  </script>
+</body>
 </html>
